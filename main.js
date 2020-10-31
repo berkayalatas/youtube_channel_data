@@ -40,6 +40,16 @@ function initClient() {
 
 const defaulChannel = 'NASA'
 
+//form submit and change channel
+
+channelForm.addEventListener('submit', e=> {
+    e.preventDefault();
+
+    const channel = channelInput.value;
+
+    getChannel(channel);
+})
+
 //Update UI sign in state change
 function updateSigninStatus(isSignedIn) {
 
