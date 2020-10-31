@@ -43,11 +43,11 @@ const defaulChannel = 'NASA'
 // form submit and change channel
 channelForm.addEventListener('submit', e => {
     e.preventDefault();
-  
+
     const channel = channelInput.value;
-  
+
     getChannel(channel);
-  });
+});
 
 
 //Update UI sign in state change
@@ -77,7 +77,7 @@ function handleSignoutClick() {
     gapi.auth2.getAuthInstance().signOut();
 }
 
-//display channel data
+// Display channel data
 function showChannelData(data) {
     const channelData = document.getElementById('channel-data');
     channelData.innerHTML = data;
@@ -87,15 +87,15 @@ function showChannelData(data) {
 // Get channel from API
 function getChannel(channel) {
     gapi.client.youtube.channels
-      .list({
-        part: 'snippet,contentDetails,statistics',
-        forUsername: channel
-      })
-      .then(response => {
-        console.log(response);
-        const channel = response.result.items[0];
-  
-        const output = `
+        .list({
+            part: 'snippet,contentDetails,statistics',
+            forUsername: channel
+        })
+        .then(response => {
+            console.log(response);
+            const channel = response.result.items[0];
+
+            const output = `
           <ul class="collection">
             <li class="collection-item">Title: ${channel.snippet.title}</li>
             <li class="collection-item">ID: ${channel.id}</li>
@@ -115,54 +115,49 @@ function getChannel(channel) {
             channel.snippet.customUrl
           }">Visit Channel</a>
         `;
-        showChannelData(output);
-  
-        const playlistId = channel.contentDetails.relatedPlaylists.uploads;
-        requestVideoPlaylist(playlistId);
-      })
-      .catch(err => alert('No Channel By That Name'));
-  }
+            showChannelData(output);
 
-  
+            const playlistId = channel.contentDetails.relatedPlaylists.uploads;
+            requestVideoPlaylist(playlistId);
+        })
+        .catch(err => alert('No Channel By That Name'));
+}
+
 // Add commas to number
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
-
 
 function requestVideoPlaylist(playlistId) {
     const requestOptions = {
         playlistId: playlistId,
         part: 'snippet',
         maxResults: 10
-    }
-    const request = gapi.client.youtube.playlistItem.list(requestOptions);
+    };
+
+    const request = gapi.client.youtube.playlistItems.list(requestOptions);
 
     request.execute(response => { //channel id ,title,playlistid,videos ,description thumbnails...
         console.log(response);
+        const playListItems = response.result.items;
+        if (playListItems) {
+            let output = '<br><h4 class="center-align">Latest Videos</h4>';
 
-        const playlistItems =responce.result.items; //array on the console.a
-        if(playlistItems) {
-            let output= '<br><h4 class ="center-align"> Latest Videos </h4>';
-
-            //loop through videos and append output
-            playlistItems.forEach(item => {
-                const videoId = item.snippet.recsourceId.videoId; //inside item inside snipped ..(in array)
+            // Loop through videos and append output
+            playListItems.forEach(item => {
+                const videoId = item.snippet.resourceId.videoId; //inside item inside snipped ..(in array)
 
                 output += `
-                    <div class="col s3">
-                    <iframe width="100%" height="auto" src="https://www.youtube.com/embed/${videoId}"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                    </iframe>
-                    </div>
-                    `;
+              <div class="col s3">
+              <iframe width="100%" height="auto" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              </div>
+            `;
             });
 
-            //output videos
+            // Output videos
             videoContainer.innerHTML = output;
-        }else {
-            videoContainer.innerHTML = 'No Uploaded Videos'
+        } else {
+            videoContainer.innerHTML = 'No Uploaded Videos';
         }
     });
 }
-
