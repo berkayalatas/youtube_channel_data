@@ -16,73 +16,71 @@ const channelInput = document.getElementById('channel-input');
 const videoContainer = document.getElementById('video-container');
 
 //load auth2 library
+const defaultChannel = 'techguyweb';
 
+// Form submit and change channel
+channelForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const channel = channelInput.value;
+
+  getChannel(channel);
+});
+
+// Load auth2 library
 function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
+  gapi.load('client:auth2', initClient);
 }
 
-//initial API client library and set up sign in listeners
+// Init API client library and set up sign in listeners
 function initClient() {
-    gapi.client.init({
-        discoveryDocs: DISCOVERY_DOCS,
-        clientId: CLIENT_ID,
-        scope: SCOPES
-    }).then(() => {
-        // Listen for sign in state changes
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-        // Handle initial sign in state
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        authorizeButton.onclick = handleAuthClick;
-        signoutButton.onclick = handleSignoutClick;
-
+  gapi.client
+    .init({
+      discoveryDocs: DISCOVERY_DOCS,
+      clientId: CLIENT_ID,
+      scope: SCOPES
+    })
+    .then(() => {
+      // Listen for sign in state changes
+      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+      // Handle initial sign in state
+      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+      authorizeButton.onclick = handleAuthClick;
+      signoutButton.onclick = handleSignoutClick;
     });
 }
 
-const defaulChannel = 'NASA'
-
-// form submit and change channel
-channelForm.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const channel = channelInput.value;
-
-    getChannel(channel);
-});
-
-
-//Update UI sign in state change
+// Update UI sign in state changes
 function updateSigninStatus(isSignedIn) {
-
-    if (isSignedIn) {
-        authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
-        content.style.display = 'block';
-        videoContainer.style.display = 'block';
-        getChannel(defaulChannel)
-    } else {
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
-        content.style.display = 'none';
-        videoContainer.style.display = 'none';
-    }
+  if (isSignedIn) {
+    authorizeButton.style.display = 'none';
+    signoutButton.style.display = 'block';
+    content.style.display = 'block';
+    videoContainer.style.display = 'block';
+    getChannel(defaultChannel);
+  } else {
+    authorizeButton.style.display = 'block';
+    signoutButton.style.display = 'none';
+    content.style.display = 'none';
+    videoContainer.style.display = 'none';
+  }
 }
 
 // Handle login
 function handleAuthClick() {
-    gapi.auth2.getAuthInstance().signIn();
+  gapi.auth2.getAuthInstance().signIn();
 }
 
 // Handle logout
 function handleSignoutClick() {
-    gapi.auth2.getAuthInstance().signOut();
+  gapi.auth2.getAuthInstance().signOut();
 }
 
 // Display channel data
 function showChannelData(data) {
-    const channelData = document.getElementById('channel-data');
-    channelData.innerHTML = data;
+  const channelData = document.getElementById('channel-data');
+  channelData.innerHTML = data;
 }
-
 
 // Get channel from API
 function getChannel(channel) {
