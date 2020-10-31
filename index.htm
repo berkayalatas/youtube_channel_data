@@ -3,22 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="51OWdOdMsfYE-e-ULVJ1k8eW-3y43yoKVYSCGkkYqmg" />
+    <meta
+      name="google-site-verification"
+      content="51OWdOdMsfYE-e-ULVJ1k8eW-3y43yoKVYSCGkkYqmg"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css"
     />
-    <link rel="shortcut icon" href="https://img.icons8.com/doodle/48/000000/video-conference.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="https://img.icons8.com/doodle/48/000000/video-conference.png"
+      type="image/x-icon"
+    />
 
     <title>Channel Data</title>
     <style>
-      
-        #content,
-        #authorize-button,
-        #signout-button {
-          display: none
-        }
-        
+      #content,
+      #authorize-button,
+      #signout-button {
+        display: none;
+      }
 
       #navbar {
         background-color: rgb(190, 19, 19) !important;
@@ -47,33 +52,39 @@
         <br />
 
         <div id="content">
-
-            <div class="row">
-                <div class="col s6">
-                    <form id="channel-form">
-                        <div class="input-field col s6">
-                            <input type="text" id="channel-input" placeholder="Enter Channel Name:">
-                            <input type="submit" value="Get Channel Data" class="btn grey">
-                        </div>
-                    </form>
+          <div class="row">
+            <div class="col s6">
+              <form id="channel-form">
+                <div class="input-field col s6">
+                  <input
+                    type="text"
+                    id="channel-input"
+                    placeholder="Enter Channel Name:"
+                  />
+                  <input
+                    type="submit"
+                    value="Get Channel Data"
+                    class="btn grey"
+                  />
                 </div>
-
-                <div id="channel-data" class="col s6"></div>
-
+              </form>
             </div>
-            <div class="row" id="video-container"></div>
+
+            <div id="channel-data" class="col s6"></div>
+          </div>
+          <div class="row" id="video-container"></div>
         </div>
       </div>
     </section>
 
-
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <script src="main.js"></script>
-    <script async defer src="https://apis.google.com/js/api.js"
-    onload="this.onload=function(){};handleClientLoad()"
-    onreadystatechange="if (this.readyState == 'complete') this.onLoad()">
-</script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState == 'complete') this.onLoad()"
+    ></script>
   </body>
 </html>
